@@ -1,20 +1,88 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="ui-g">
+  <div class="ui-g-4 ui-md-4 ui-lg-4"></div>
+  <div class="ui-g-4 ui-md-4 ui-lg-4">
+    <br/>
+  </div>
+  <div class="ui-g-4 ui-md-4 ui-lg-4"></div>
+  <div class="ui-g-4 ui-md-4 ui-lg-4"></div>
+  <div class="ui-g-4 ui-md-4 ui-lg-4">
+    <h1 style="text-align: center">Consulta de Pedidos</h1>
+  </div>
+  <div class="ui-g-4 ui-md-4 ui-lg-4"></div>
+  <div class="ui-g-1 ui-md-1 ui-lg-1"></div>
+  <div class="ui-g-10 ui-md-10 ui-lg-10">
 
+    <p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+    <form [formGroup]="consultaPedidoform" (ngSubmit)="onSubmit(consultaPedidoform.value)">
+      <p-panel header="Consulta tu pedido con tu celular">
+        <br/>
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon">
+            <i class="fa fa-phone"></i>
+          </span>
+          <input type="text" class="ui-g-2" formControlName="celular" pInputText placeholder="Celular" name="celular">
+          <input type="text" class="ui-g-2" [hidden]="true" formControlName="captcha" pInputText placeholder="Celular" name="captcha">
+        </div>
+        <br/>
+        <p-captcha siteKey="6LecyFsUAAAAAMVmYOyhaSHY24ivYVYNcccIXR0c" (onResponse)="showResponse($event)"></p-captcha>
+        <br/>
+        <button pButton type="submit" label="Consultar" [disabled]="!consultaPedidoform.valid"></button>
+      </p-panel>
+    </form>
+  </div>
+  <div class="ui-g-1 ui-md-1 ui-lg-1"></div>
+  <div class="ui-g-1 ui-md-1 ui-lg-1"></div>
+  <div class="ui-g-10 ui-md-10 ui-lg-10">
+    <p-table [columns]="cols" [value]="cars" dataKey="vin">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 2.25em"></th>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+        <tr>
+          <td>
+            <a href="#" [pRowToggler]="rowData">
+              <i [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+            </a>
+          </td>
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+        <tr>
+          <td [attr.colspan]="columns.length + 1">
+            <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+              <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <img [attr.alt]="rowData.brand" src="assets/showcase/images/demo/car/{{rowData.brand}}.png">
+              </div>
+              <div class="ui-g-12 ui-md-9">
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <b>Vin:</b> {{rowData.vin}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>Year:</b> {{rowData.year}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>Brand:</b> {{rowData.brand}}
+                  </div>
+                  <div class="ui-g-12">
+                    <b>Color:</b> {{rowData.color}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="ui-g-1 ui-md-1 ui-lg-1"></div>
+</div>
